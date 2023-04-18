@@ -8,13 +8,28 @@ var items = {};
 // Public API - Fix these CRUD functions ///////////////////////////////////////
 
 exports.create = (text, callback) => {
-  var id = counter.getNextUniqueId();
-  items[id] = text;
-  callback(null, { id, text });
+  // check if id is incremented and saved into counter.txt
+  counter.getNextUniqueId((err, id) => {
+    console.log('id is:', id);
+
+    // console.log ('dataDir before mutilation: ', dataDir);
+    var newPath = path.join(exports.dataDir, id).concat('.txt');
+    console.log ('newPath after mutilation: ', newPath);
+    fs.writeFile(newPath, text, (err) => {
+      if (err) {
+        throw ('error writing counter');
+      } else {
+        callback(null, { id, text } );
+      }
+    });
+  });
 };
 
 exports.readAll = (callback) => {
+  var todos = [];
+  // Do the same work but over all of the files (rather than elements of array)
   var data = _.map(items, (text, id) => {
+    console.log('The current {id, text} object is: ', { id, text });
     return { id, text };
   });
   callback(null, data);
