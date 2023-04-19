@@ -40,16 +40,9 @@ const writeCounter = (count, callback) => {
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = (callback) => {
-  // readCounter
-  readCounter((error, data)=>{
-    if (error) {
-      throw ('we have an error within readCounter function');
-    }
-    writeCounter(data + 1, (err, counterString) => {
-      if (err) {
-        throw ('we have an error writing file');
-      }
-      callback(err, counterString);
+  readCounter((err, counter) => {
+    writeCounter(counter + 1, (err, zeroPadded) => {
+      callback(err, zeroPadded);
     });
   });
 };
@@ -59,3 +52,32 @@ exports.getNextUniqueId = (callback) => {
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
 exports.counterFile = path.join(__dirname, 'counter.txt');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// readCounter((error, data)=>{
+//   if (error) {
+//     throw ('we have an error within readCounter function');
+//   }
+//   writeCounter(data + 1, (err, counterString) => {
+//     if (err) {
+//       throw ('we have an error writing file');
+//     }
+//     callback(err, counterString);
+//   });
+// });
